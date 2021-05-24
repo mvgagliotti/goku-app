@@ -1,0 +1,9 @@
+mysql:
+  image: mysql:5.7.34
+  environment:
+    MYSQL_DATABASE: goku_db
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: goku_user
+    MYSQL_PASSWORD: goku_passwd
+  ports:
+    - 3306:3306
