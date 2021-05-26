@@ -1,0 +1,1 @@
+INSERT INTO GK_USER VALUES('1', 'admin', 'admin', 'ROLE_USER,ROLE_ADMIN')
