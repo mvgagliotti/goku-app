@@ -1,10 +1,15 @@
 package com.goku.gokubackend.application.controller;
 
 import com.goku.gokubackend.application.jwt.JwtToken;
+import com.goku.gokubackend.domain.User;
+import com.goku.gokubackend.domain.exception.InvalidCredentialsException;
+import com.goku.gokubackend.domain.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +21,15 @@ import java.util.Arrays;
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     private final JwtToken token;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(JwtToken token) {
+    public UserController(JwtToken token, UserRepository userRepository) {
         this.token = token;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping("hello")
@@ -31,12 +39,15 @@ public class UserController {
 
     @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserResponse login(@RequestBody UserCredentials credentials) {
-        //TODO: check user credentials
-        return new UserResponse(credentials.getUsername(), token(credentials.getUsername()));
+        User user = userRepository.fetchByUsername(credentials.getUsername());
+        if (!PASSWORD_ENCODER.matches(credentials.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException();
+        }
+        return new UserResponse(credentials.getUsername(), token(user));
     }
 
-    private String token(String username) {
-        return token.build(username, Arrays.asList("ROLE_USER"));
+    private String token(User user) {
+        return token.build(user.getUsername(), user.getRoles().getValues());
     }
 
     public static class UserResponse {
