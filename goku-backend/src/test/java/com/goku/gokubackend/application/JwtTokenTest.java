@@ -1,4 +1,4 @@
-package com.goku.gokubackend;
+package com.goku.gokubackend.application;
 
 import com.goku.gokubackend.application.jwt.JwtToken;
 import com.goku.gokubackend.application.jwt.JwtToken.ParsedJwtToken;
