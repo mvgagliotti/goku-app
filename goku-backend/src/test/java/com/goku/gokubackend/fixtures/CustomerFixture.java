@@ -18,5 +18,4 @@ public class CustomerFixture {
 
         return new Customer(id, "Zé", ad);
     }
-
 }

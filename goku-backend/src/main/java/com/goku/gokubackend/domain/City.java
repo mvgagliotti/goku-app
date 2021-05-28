@@ -36,12 +36,12 @@ public class City implements Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return Objects.equals(id, city.id) && Objects.equals(name, city.name) && Objects.equals(state, city.state);
+        return Objects.equals(name, city.name) && Objects.equals(state, city.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, state);
+        return Objects.hash(name, state);
     }
 
     @Override
@@ -51,6 +51,11 @@ public class City implements Entity {
                 ", name='" + name + '\'' +
                 ", state=" + state +
                 '}';
+    }
+
+    @Override
+    public boolean hasBusinessKey() {
+        return true; //name + state
     }
 
     public City withId(String id) {

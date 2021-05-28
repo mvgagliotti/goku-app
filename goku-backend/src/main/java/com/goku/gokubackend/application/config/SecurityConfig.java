@@ -2,18 +2,27 @@ package com.goku.gokubackend.application.config;
 
 import com.goku.gokubackend.application.filter.JWTAuthorizationFilter;
 import com.goku.gokubackend.application.jwt.JwtToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static java.lang.Integer.*;
+
 @Configuration
 @EnableWebSecurity
+@PropertySource("config.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final int TEN_MINUTES = 600000;
+
+    @Autowired
+    private Environment env;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -21,13 +30,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(token()), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers( "/login", "/register").permitAll()
+                .antMatchers("/login", "/register").permitAll()
                 .antMatchers("/hello").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
     }
 
     @Bean
     public JwtToken token() {
-        return new JwtToken("myJWT", "mySecretKey", TEN_MINUTES);
+        return new JwtToken(env.getProperty("jwt.id"),
+                env.getProperty("jwt.secret-key"),
+                valueOf(env.getProperty("jwt.expiration")));
     }
 }

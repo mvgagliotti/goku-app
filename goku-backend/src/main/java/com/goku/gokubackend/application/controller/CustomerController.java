@@ -66,7 +66,10 @@ public class CustomerController {
                                 x.getStreetAddress().getPostalCode(),
                                 x.getStreetAddress().getStreetName(),
                                 new CityDTO(x.getStreetAddress().getCity().getId().get(),
-                                        x.getStreetAddress().getCity().getName())))
+                                        x.getStreetAddress().getCity().getName(),
+                                        x.getStreetAddress().getCity().getState().getName(),
+                                        x.getStreetAddress().getCity().getState().getAbbreviation()
+                                )))
                         .collect(Collectors.toList())
         );
     }

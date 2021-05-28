@@ -7,4 +7,5 @@ public interface Entity {
     default boolean isNew() {
         return getId().isEmpty();
     }
+    default boolean hasBusinessKey() { return false; }
 }

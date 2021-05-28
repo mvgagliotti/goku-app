@@ -45,12 +45,12 @@ public class MySQLUserRepository implements UserRepository, SpringEmptyResultHan
 
     @Override
     public User fetchById(String id) {
-        return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE ID = ?", ROW_MAPPER, id));
+        return handleEmptyThrow(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE ID = ?", ROW_MAPPER, id));
     }
 
     @Override
     public User fetchByUsername(String username) {
-        return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE USERNAME = ?", ROW_MAPPER, username));
+        return handleEmptyThrow(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE USERNAME = ?", ROW_MAPPER, username));
     }
 
     @Override

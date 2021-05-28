@@ -39,7 +39,7 @@ public class MySQLCityRepository implements CityRepository, SpringEmptyResultHan
 
     @Override
     public City findById(String id) {
-        return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM CITY WHERE ID = ?", ROW_MAPPER, id));
+        return handleEmptyThrow(() -> jdbc.queryForObject("SELECT * FROM CITY WHERE ID = ?", ROW_MAPPER, id));
     }
 
     @Override
@@ -53,5 +53,14 @@ public class MySQLCityRepository implements CityRepository, SpringEmptyResultHan
                 city.getState().getAbbreviation(),
                 city.getId());
         return city;
+    }
+
+    public Optional<City> findByKey(City city) {
+        Optional<City> foundCity = handleEmpty(() -> jdbc.queryForObject("SELECT * FROM CITY WHERE " +
+                        "UPPER(NAME) = UPPER(?) AND UPPER(STATE_ABBREVIATION) = UPPER(?)",
+                ROW_MAPPER,
+                city.getName(),
+                city.getState().getAbbreviation()));
+        return foundCity;
     }
 }

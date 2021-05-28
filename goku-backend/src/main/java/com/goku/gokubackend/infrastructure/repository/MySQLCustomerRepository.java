@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class MySQLCustomerRepository implements CustomerRepository, SpringEmptyR
 
     @Override
     public Customer findById(String id) {
-        return handleEmpty(() -> jdbcTemplate.queryForObject("SELECT * FROM CUSTOMER WHERE ID = ?", ROW_MAPPER, id));
+        return handleEmptyThrow(() -> jdbcTemplate.queryForObject("SELECT * FROM CUSTOMER WHERE ID = ?", ROW_MAPPER, id));
     }
 
     @Override
@@ -53,13 +52,22 @@ public class MySQLCustomerRepository implements CustomerRepository, SpringEmptyR
                 .get()
                 .stream()
                 .map(customerAddress -> {
-                    Address newAddress = addressRepository.findOrCreate(customerAddress.getStreetAddress());
-                    return customerAddressRepository.updateOrCreate(
-                            customer.getId().get(),
-                            new CustomerAddress(newAddress, customerAddress.getAddressInfo())
-                    );
+                    Address newAddress = findOrCreateAddress(customerAddress);
+                    return updateOrCreateCustomerAddress(customer, customerAddress, newAddress);
                 }).collect(Collectors.toList());
+
         return new Customer(customer.getId(), customer.getName(), new Addresses(newAddresses));
+    }
+
+    private Address findOrCreateAddress(CustomerAddress customerAddress) {
+        return addressRepository.findOrCreate(customerAddress.getStreetAddress());
+    }
+
+    private CustomerAddress updateOrCreateCustomerAddress(Customer customer, CustomerAddress customerAddress,
+                                                          Address newAddress) {
+        return customerAddressRepository.updateOrCreate(
+                customer.getId().get(),
+                new CustomerAddress(newAddress, customerAddress.getAddressInfo()));
     }
 
     @Override
