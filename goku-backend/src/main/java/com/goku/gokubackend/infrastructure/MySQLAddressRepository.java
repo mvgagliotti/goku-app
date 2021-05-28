@@ -1,4 +1,4 @@
-package com.goku.gokubackend.infrastructure.repository;
+package com.goku.gokubackend.infrastructure;
 
 import com.goku.gokubackend.domain.Address;
 import com.goku.gokubackend.domain.City;

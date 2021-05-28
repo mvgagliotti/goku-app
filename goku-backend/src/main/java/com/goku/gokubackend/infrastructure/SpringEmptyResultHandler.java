@@ -1,4 +1,4 @@
-package com.goku.gokubackend.infrastructure.repository;
+package com.goku.gokubackend.infrastructure;
 
 import org.apache.logging.log4j.util.Supplier;
 import org.springframework.dao.EmptyResultDataAccessException;

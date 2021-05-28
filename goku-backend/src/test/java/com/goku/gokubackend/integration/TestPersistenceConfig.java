@@ -1,7 +1,7 @@
 package com.goku.gokubackend.integration;
 
 import com.goku.gokubackend.domain.repository.*;
-import com.goku.gokubackend.infrastructure.repository.*;
+import com.goku.gokubackend.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;

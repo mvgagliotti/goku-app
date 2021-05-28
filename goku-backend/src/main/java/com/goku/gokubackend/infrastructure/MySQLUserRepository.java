@@ -1,4 +1,4 @@
-package com.goku.gokubackend.infrastructure.repository;
+package com.goku.gokubackend.infrastructure;
 
 import com.goku.gokubackend.domain.Roles;
 import com.goku.gokubackend.domain.User;
