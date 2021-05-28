@@ -29,9 +29,6 @@ public interface Repository<T extends Entity> {
     }
 
     default T findOrCreate(T entity) {
-        if (entity.getId().isEmpty()) {
-            return create(entity);
-        }
         return tryToFind(entity).orElse(create(entity));
     }
 
