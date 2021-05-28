@@ -1,8 +1,8 @@
 package com.goku.gokubackend.domain.exception;
 
-public class AddressUpdateException extends RuntimeException {
+public class AddressUpdateException extends DomainException {
 
     public AddressUpdateException(String address) {
-        super("Address not found" + address.toString());
+        super("Address not found" + address);
     }
 }

@@ -6,6 +6,7 @@ import com.goku.gokubackend.application.controller.dto.StreetDTO;
 import com.goku.gokubackend.domain.Customer;
 import com.goku.gokubackend.domain.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -27,11 +28,19 @@ public class CustomerController {
         return mapToDTO(customer);
     }
 
-    @PostMapping("/customer")
+    @PostMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CustomerDTO create(@RequestBody CustomerDTO customerDTO) {
         Customer customer = mapToCustomer(customerDTO);
         customer = customerRepository.create(customer);
+        return mapToDTO(customer);
+    }
+
+    @PutMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CustomerDTO update(@RequestBody CustomerDTO customerDTO) {
+        Customer customer = mapToCustomer(customerDTO);
+        customer = customerRepository.update(customer);
         return mapToDTO(customer);
     }
 
