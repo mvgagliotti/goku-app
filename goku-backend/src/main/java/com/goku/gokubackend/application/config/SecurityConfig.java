@@ -1,6 +1,6 @@
 package com.goku.gokubackend.application.config;
 
-import com.goku.gokubackend.application.JWTAuthorizationFilter;
+import com.goku.gokubackend.application.filter.JWTAuthorizationFilter;
 import com.goku.gokubackend.application.jwt.JwtToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

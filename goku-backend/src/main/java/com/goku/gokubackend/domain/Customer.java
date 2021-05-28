@@ -50,4 +50,17 @@ public class Customer implements Entity {
     public int hashCode() {
         return Objects.hash(id, name, deliveryAddresses);
     }
+
+    public Customer withId(String id) {
+        return new Customer(Optional.of(id), name, deliveryAddresses);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", deliveryAddresses=" + deliveryAddresses +
+                '}';
+    }
 }

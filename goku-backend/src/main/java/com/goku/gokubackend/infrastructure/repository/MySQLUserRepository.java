@@ -3,19 +3,18 @@ package com.goku.gokubackend.infrastructure.repository;
 import com.goku.gokubackend.domain.Roles;
 import com.goku.gokubackend.domain.User;
 import com.goku.gokubackend.domain.repository.UserRepository;
-import org.apache.logging.log4j.util.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
-public class SQLUserRepository implements UserRepository {
+public class MySQLUserRepository implements UserRepository, SpringEmptyResultHandler {
 
     private static final RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(
-            rs.getString("ID"),
+            Optional.of(rs.getString("ID")),
             rs.getString("USERNAME"),
             rs.getString("PASSWORD"),
             new Roles(rs.getString("ROLES").split(","))
@@ -24,19 +23,24 @@ public class SQLUserRepository implements UserRepository {
     private final JdbcTemplate jdbc;
 
     @Autowired
-    public SQLUserRepository(JdbcTemplate jdbc) {
+    public MySQLUserRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
     @Override
-    public User create(User user) {
+    public User create(User newInstance) {
         String id = newId();
         jdbc.update("INSERT INTO GK_USER VALUES (?, ?, ?, ?)",
                 id,
-                user.getUsername(),
-                user.getPassword(),
-                user.getRoles().asCSV());
-        return user.withId(id);
+                newInstance.getUsername(),
+                newInstance.getPassword(),
+                newInstance.getRoles().asCSV());
+        return newInstance.withId(id);
+    }
+
+    @Override
+    public User findById(String id) {
+        return fetchById(id);
     }
 
     @Override
@@ -49,16 +53,8 @@ public class SQLUserRepository implements UserRepository {
         return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE USERNAME = ?", ROW_MAPPER, username));
     }
 
-    private <T> T handleEmpty(Supplier<T> supplier) {
-        try {
-            return supplier.get();
-        } catch (EmptyResultDataAccessException ex) {
-            throw new RuntimeException("User not found");
-        }
-    }
-
     @Override
-    public void update(User user) {
+    public User update(User user) {
         if (user.getId() == null) {
             throw new RuntimeException("id must not be null");
         }
@@ -66,7 +62,8 @@ public class SQLUserRepository implements UserRepository {
                 user.getUsername(),
                 user.getPassword(),
                 user.getRoles().asCSV(),
-                user.getId());
+                user.getId().get());
+        return user;
     }
 
 }

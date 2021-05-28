@@ -3,21 +3,22 @@ package com.goku.gokubackend.domain;
 import com.goku.gokubackend.domain.utils.ValidationUtils;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public class User {
-    private final String id;
+public class User implements Entity {
+    private final Optional<String> id;
     private final String username;
     private final String password;
     private final Roles roles;
 
-    public User(String id, String username, String password, Roles roles) {
+    public User(Optional<String> id, String username, String password, Roles roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public String getId() {
+    public Optional<String> getId() {
         return id;
     }
 
@@ -35,7 +36,7 @@ public class User {
 
     public User withId(String id) {
         ValidationUtils.notNull(id, () -> new RuntimeException("Id cannot be null"));
-        return new User(id, username, password, roles);
+        return new User(Optional.of(id), username, password, roles);
     }
 
     @Override

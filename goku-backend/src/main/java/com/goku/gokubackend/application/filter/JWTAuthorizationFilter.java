@@ -1,4 +1,4 @@
-package com.goku.gokubackend.application;
+package com.goku.gokubackend.application.filter;
 
 import com.goku.gokubackend.application.jwt.JwtParseException;
 import com.goku.gokubackend.application.jwt.JwtToken;

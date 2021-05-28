@@ -31,7 +31,7 @@ public class CustomerTest {
     @Test
     public void testCustomerWithoutAnAddress() {
         Customer aCustomer = new Customer(Optional.of("1"), "Fulano");
-        Assertions.assertEquals("1", aCustomer.getId());
+        Assertions.assertEquals("1", aCustomer.getId().get());
         Assertions.assertEquals("Fulano", aCustomer.getName());
         Assertions.assertTrue(aCustomer.getDeliveryAddresses().get().isEmpty());
     }

@@ -1,10 +1,9 @@
 package com.goku.gokubackend.integration;
 
-import com.goku.gokubackend.domain.repository.UserRepository;
-import com.goku.gokubackend.infrastructure.repository.SQLUserRepository;
+import com.goku.gokubackend.domain.repository.*;
+import com.goku.gokubackend.infrastructure.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,6 +42,30 @@ public class TestPersistenceConfig {
 
     @Bean
     public UserRepository userRepo(JdbcTemplate jdbc) {
-        return new SQLUserRepository(jdbc);
+        return new MySQLUserRepository(jdbc);
     }
+
+    @Bean
+    public CityRepository cityRepository(JdbcTemplate jdbcTemplate) {
+        return new MySQLCityRepository(jdbcTemplate);
+    }
+
+    @Bean
+    public AddressRepository addressRepository(JdbcTemplate jdbcTemplate, CityRepository cityRepository) {
+        return new MySQLAddressRepository(cityRepository, jdbcTemplate);
+    }
+
+    @Bean
+    public CustomerAddressRepository customerAddressRepository(JdbcTemplate jdbcTemplate, AddressRepository addressRepository) {
+        return new MySQLCustomerAddressRepository(jdbcTemplate, addressRepository);
+    }
+
+    @Bean
+    public CustomerRepository customerRepository(JdbcTemplate jdbcTemplate,
+                                                 AddressRepository addressRepository,
+                                                 CustomerAddressRepository customerAddressRepository) {
+        return new MySQLCustomerRepository(jdbcTemplate, addressRepository, customerAddressRepository);
+    }
+
+
 }

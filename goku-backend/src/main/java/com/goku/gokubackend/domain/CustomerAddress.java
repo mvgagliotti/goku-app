@@ -7,18 +7,18 @@ import java.util.Objects;
 
 public class CustomerAddress {
 
-    private final Street street;
+    private final Address address;
     private final AddressInfo addressInfo;
 
-    public CustomerAddress(Street street, AddressInfo addressInfo) {
-        ValidationUtils.notNull(street, () -> new PostalCodeException("Postal code cannot be null"));
+    public CustomerAddress(Address address, AddressInfo addressInfo) {
+        ValidationUtils.notNull(address, () -> new PostalCodeException("Postal code cannot be null"));
         ValidationUtils.notNull(addressInfo, () -> new PostalCodeException("Street info cannot be null"));
-        this.street = street;
+        this.address = address;
         this.addressInfo = addressInfo;
     }
 
-    public Street getStreet() {
-        return street;
+    public Address getStreetAddress() {
+        return address;
     }
 
     public AddressInfo getAddressInfo() {
@@ -30,19 +30,19 @@ public class CustomerAddress {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerAddress address = (CustomerAddress) o;
-        return Objects.equals(street, address.street)
+        return Objects.equals(this.address, address.address)
                 && Objects.equals(addressInfo, address.addressInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street, addressInfo);
+        return Objects.hash(address, addressInfo);
     }
 
     @Override
     public String toString() {
         return "Address{" +
-                "postalCode=" + street +
+                "postalCode=" + address +
                 ", streetInfo=" + addressInfo +
                 '}';
     }

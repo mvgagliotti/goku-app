@@ -1,17 +1,21 @@
 package com.goku.gokubackend.domain;
 
+import com.goku.gokubackend.domain.utils.ValidationUtils;
+
 import java.util.Objects;
 import java.util.Optional;
 
-public class Street implements Entity {
-    private Optional<String> id;
+public class Address implements Entity {
     private final String postalCode;
     private final String streetName;
     private final String district;
     private final City city;
 
-    public Street(Optional<String> id, String postalCode, String streetName, String district, City city) {
-        this.id = id;
+    public Address(String postalCode, String streetName, String district, City city) {
+        ValidationUtils.notNull(postalCode, () -> new RuntimeException("Postal Code is mandatory"));
+        ValidationUtils.notNull(streetName, () -> new RuntimeException("Street name is mandatory"));
+        ValidationUtils.notNull(district, () -> new RuntimeException("District Code is mandatory"));
+        ValidationUtils.notNull(city, () -> new RuntimeException("City is mandatory"));
         this.postalCode = postalCode;
         this.streetName = streetName;
         this.district = district;
@@ -20,7 +24,7 @@ public class Street implements Entity {
 
     @Override
     public Optional<String> getId() {
-        return id;
+        return Optional.of(postalCode);
     }
 
     public String getPostalCode() {
@@ -43,7 +47,7 @@ public class Street implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Street that = (Street) o;
+        Address that = (Address) o;
         return Objects.equals(postalCode, that.postalCode) &&
                 Objects.equals(streetName, that.streetName) &&
                 Objects.equals(district, that.district) &&
@@ -53,5 +57,15 @@ public class Street implements Entity {
     @Override
     public int hashCode() {
         return Objects.hash(postalCode, streetName, district, city);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "postalCode='" + postalCode + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", district='" + district + '\'' +
+                ", city=" + city +
+                '}';
     }
 }

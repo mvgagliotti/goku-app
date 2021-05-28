@@ -16,6 +16,14 @@ public class AddressInfo {
         this.number = number;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -27,5 +35,13 @@ public class AddressInfo {
     @Override
     public int hashCode() {
         return Objects.hash(description, number);
+    }
+
+    @Override
+    public String toString() {
+        return "AddressInfo{" +
+                "number=" + number +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

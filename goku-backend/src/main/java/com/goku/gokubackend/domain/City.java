@@ -6,7 +6,7 @@ import com.goku.gokubackend.domain.utils.ValidationUtils;
 import java.util.Objects;
 import java.util.Optional;
 
-public class City {
+public class City implements Entity {
     private final Optional<String> id;
     private final String name;
     private final State state;
@@ -51,5 +51,9 @@ public class City {
                 ", name='" + name + '\'' +
                 ", state=" + state +
                 '}';
+    }
+
+    public City withId(String id) {
+        return new City(Optional.of(id), name, state);
     }
 }

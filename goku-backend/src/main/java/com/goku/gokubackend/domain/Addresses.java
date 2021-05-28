@@ -28,7 +28,7 @@ public class Addresses {
 
     public void update(CustomerAddress address) {
         CustomerAddress old = list.stream()
-                .filter(x -> x.getStreet().equals(address.getStreet()))
+                .filter(x -> x.getStreetAddress().equals(address.getStreetAddress()))
                 .findAny()
                 .orElseThrow(() -> new AddressUpdateException("Address not found on list: " + address.toString()));
 
