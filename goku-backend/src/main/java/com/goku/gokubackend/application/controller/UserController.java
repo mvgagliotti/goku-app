@@ -64,9 +64,21 @@ public class UserController {
         return new RegisterDTO(user.getId().get(), user.getUsername(), "******", register.getName());
     }
 
+    @PostMapping(value = "/admin-register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public RegisterDTO registerNewUserAsAdmin(@RequestBody RegisterDTO register) {
+        User user = mapToAdmin(register);
+        user = userRepository.create(user);
+        return new RegisterDTO(user.getId().get(), user.getUsername(), "******", register.getName());
+    }
+
     private User mapToUser(RegisterDTO register) {
         return new User(Optional.empty(), register.getUsername(),
                 PASSWORD_ENCODER.encode(register.getPassword()), new Roles("ROLE_USER"));
+    }
+
+    private User mapToAdmin(RegisterDTO register) {
+        return new User(Optional.empty(), register.getUsername(),
+                PASSWORD_ENCODER.encode(register.getPassword()), new Roles("ROLE_ADMIN"));
     }
 
 
