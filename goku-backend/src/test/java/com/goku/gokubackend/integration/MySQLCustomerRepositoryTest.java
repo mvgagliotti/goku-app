@@ -1,10 +1,13 @@
 package com.goku.gokubackend.integration;
 
+import com.goku.gokubackend.domain.AddressInfo;
 import com.goku.gokubackend.domain.Customer;
+import com.goku.gokubackend.domain.CustomerAddress;
 import com.goku.gokubackend.domain.User;
 import com.goku.gokubackend.domain.repository.CustomerRepository;
 import com.goku.gokubackend.domain.repository.UserRepository;
 import com.goku.gokubackend.fixtures.CustomerFixture;
+import com.goku.gokubackend.fixtures.StreetFixture;
 import com.goku.gokubackend.fixtures.UserFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,7 @@ public class MySQLCustomerRepositoryTest extends DatabaseIntegrationBaseTest {
     @Test
     public void testCreatingACostumer() {
         User user = userRepository.create(UserFixture.aUser());
-        Customer customer = CustomerFixture.aCostumer(user.getId());
+        Customer customer = CustomerFixture.aCostumerWithAnAddress(user.getId());
         customerRepository.create(customer);
         customer = customerRepository.findById(customer.getId().get());
         Assertions.assertNotNull(customer);
@@ -30,7 +33,7 @@ public class MySQLCustomerRepositoryTest extends DatabaseIntegrationBaseTest {
     @Test
     public void testUpdatingCustomerWithAnAddress() {
         User user = userRepository.create(UserFixture.aUser());
-        Customer customer = CustomerFixture.aCostumer(user.getId());
+        Customer customer = CustomerFixture.aCostumerWithAnAddress(user.getId());
 
         customerRepository.create(customer);
         Customer updated = customerRepository.update(customer);
@@ -38,5 +41,14 @@ public class MySQLCustomerRepositoryTest extends DatabaseIntegrationBaseTest {
         Assertions.assertEquals(1, updated.getDeliveryAddresses().get().size());
         Customer loaded = customerRepository.findById(updated.getId().get());
         Assertions.assertEquals(1, loaded.getDeliveryAddresses().get().size());
+
+        updated.getDeliveryAddresses()
+                .add(new CustomerAddress(StreetFixture.anotherStreet(), new AddressInfo(204, "")));
+
+        customerRepository.update(updated);
+
+        Customer reLoaded = customerRepository.findById(customer.getId().get());
+        Assertions.assertEquals(2, reLoaded.getDeliveryAddresses().get().size());
+
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class MySQLAddressRepository implements AddressRepository, SpringEmptyRes
     }
 
     @Override
+    @Transactional
     public Address create(Address newInstance) {
         City city = cityRepository.findOrCreate(newInstance.getCity());
         jdbc.update("INSERT INTO ADDRESS VALUES(?, ?, ?, ?)",
@@ -51,6 +53,7 @@ public class MySQLAddressRepository implements AddressRepository, SpringEmptyRes
     }
 
     @Override
+    @Transactional
     public Address update(Address address) {
         address.getId().orElseThrow(() -> new RuntimeException("id must not be null"));
         address.getCity().getId().orElseThrow(() -> new RuntimeException("City id must not be null"));

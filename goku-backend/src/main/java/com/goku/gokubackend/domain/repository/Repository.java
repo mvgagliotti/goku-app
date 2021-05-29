@@ -29,7 +29,7 @@ public interface Repository<T extends Entity> {
     }
 
     default T findOrCreate(T entity) {
-        return tryToFind(entity).orElse(create(entity));
+        return tryToFind(entity).orElseGet(() -> create(entity));
     }
 
     default String newId() {

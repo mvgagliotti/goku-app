@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class CustomerFixture {
 
-    public static Customer aCostumer(Optional<String> id) {
+    public static Customer aCostumerWithAnAddress(Optional<String> id) {
         Addresses ad = new Addresses(Collections.emptyList());
 
         City city = new City(Optional.of("1"), "Taubaté", new State("SP", "São Paulo"));

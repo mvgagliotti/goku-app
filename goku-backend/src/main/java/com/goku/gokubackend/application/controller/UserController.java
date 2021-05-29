@@ -44,7 +44,9 @@ public class UserController {
 
     @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserResponse login(@RequestBody UserCredentials credentials) {
-        User user = userRepository.fetchByUsername(credentials.getUsername());
+        User user = userRepository
+                .fetchByUsername(credentials.getUsername())
+                .orElseThrow(() -> new InvalidCredentialsException());
         if (!PASSWORD_ENCODER.matches(credentials.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException();
         }
@@ -59,7 +61,7 @@ public class UserController {
 
         customerRepository.create(new Customer(user.getId(), register.getName()));
 
-        return new RegisterDTO(user.getUsername(), "XXX", register.getName());
+        return new RegisterDTO(user.getId().get(), user.getUsername(), "******", register.getName());
     }
 
     private User mapToUser(RegisterDTO register) {
@@ -110,14 +112,20 @@ public class UserController {
 
     public static class RegisterDTO extends UserCredentials {
         private final String name;
+        private final String id;
 
-        public RegisterDTO(String username, String password, String name) {
+        public RegisterDTO(String id, String username, String password, String name) {
             super(username, password);
+            this.id = id;
             this.name = name;
         }
 
         public String getName() {
             return name;
+        }
+
+        public String getId() {
+            return id;
         }
     }
 

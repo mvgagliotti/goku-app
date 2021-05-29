@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +47,7 @@ public class MySQLCustomerRepository implements CustomerRepository, SpringEmptyR
     }
 
     @Override
+    @Transactional
     public Customer update(Customer customer) {
         customer.getId().orElseThrow(() -> new RuntimeException("Customer id is mandatory for update"));
         List<CustomerAddress> newAddresses = customer.getDeliveryAddresses()
@@ -71,6 +73,7 @@ public class MySQLCustomerRepository implements CustomerRepository, SpringEmptyR
     }
 
     @Override
+    @Transactional
     public Customer create(Customer customer) {
         customer.getId().orElseThrow(() -> new RuntimeException("Customer id is mandatory"));
         jdbcTemplate.update("INSERT INTO CUSTOMER VALUES (?, ?)",

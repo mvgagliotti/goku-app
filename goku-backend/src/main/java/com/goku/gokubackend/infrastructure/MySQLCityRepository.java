@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class MySQLCityRepository implements CityRepository, SpringEmptyResultHan
     }
 
     @Override
+    @Transactional
     public City create(City newInstance) {
         String id = newId();
         jdbc.update("INSERT INTO CITY VALUES (?, ?, ?, ?)",
@@ -43,6 +45,7 @@ public class MySQLCityRepository implements CityRepository, SpringEmptyResultHan
     }
 
     @Override
+    @Transactional
     public City update(City city) {
         if (city.getId() == null) {
             throw new RuntimeException("id must not be null");

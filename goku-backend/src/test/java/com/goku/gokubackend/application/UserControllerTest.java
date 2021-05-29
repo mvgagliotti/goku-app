@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -26,7 +27,7 @@ public class UserControllerTest {
     public void testLogin() {
 
         when(jwtToken.build(eq("user@email.com"), eq(Arrays.asList("ROLE_USER")))).thenReturn("a_token");
-        when(userRepository.fetchByUsername("user@email.com")).thenReturn(UserFixture.aUser());
+        when(userRepository.fetchByUsername("user@email.com")).thenReturn(Optional.of(UserFixture.aUser()));
 
         UserResponse response =
                 controller.login(new UserController.UserCredentials("user@email.com", "passwrd"));

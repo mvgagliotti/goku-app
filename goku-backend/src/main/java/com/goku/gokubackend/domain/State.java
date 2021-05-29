@@ -1,5 +1,8 @@
 package com.goku.gokubackend.domain;
 
+import com.goku.gokubackend.domain.exception.DomainException;
+import com.goku.gokubackend.domain.utils.ValidationUtils;
+
 import java.util.Objects;
 
 public class State {
@@ -7,6 +10,8 @@ public class State {
     private final String name;
 
     public State(String abbreviation, String name) {
+        ValidationUtils.notNull(abbreviation, () -> new DomainException("State abbreviation cannot be null"));
+        ValidationUtils.notNull(name, () -> new DomainException("State name cannot be null"));
         this.abbreviation = abbreviation;
         this.name = name;
     }

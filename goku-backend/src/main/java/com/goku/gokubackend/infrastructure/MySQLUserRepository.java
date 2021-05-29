@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class MySQLUserRepository implements UserRepository, SpringEmptyResultHan
     }
 
     @Override
+    @Transactional
     public User create(User newInstance) {
         String id = newId();
         jdbc.update("INSERT INTO GK_USER VALUES (?, ?, ?, ?)",
@@ -49,11 +51,12 @@ public class MySQLUserRepository implements UserRepository, SpringEmptyResultHan
     }
 
     @Override
-    public User fetchByUsername(String username) {
-        return handleEmptyThrow(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE USERNAME = ?", ROW_MAPPER, username));
+    public Optional<User> fetchByUsername(String username) {
+        return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM GK_USER WHERE USERNAME = ?", ROW_MAPPER, username));
     }
 
     @Override
+    @Transactional
     public User update(User user) {
         if (user.getId() == null) {
             throw new RuntimeException("id must not be null");

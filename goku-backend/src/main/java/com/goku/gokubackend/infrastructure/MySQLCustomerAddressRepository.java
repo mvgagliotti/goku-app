@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class MySQLCustomerAddressRepository implements CustomerAddressRepository
     }
 
     @Override
+    @Transactional
     public CustomerAddress create(String customerId, CustomerAddress customerAddress) {
         jdbcTemplate.update("INSERT INTO CUSTOMER_ADDRESS VALUES (?, ?, ?, ?)",
                 customerId,
@@ -56,6 +58,7 @@ public class MySQLCustomerAddressRepository implements CustomerAddressRepository
     }
 
     @Override
+    @Transactional
     public void update(String customerId, CustomerAddress customerAddress) {
         jdbcTemplate.update("UPDATE CUSTOMER_ADDRESS SET ADDRESS_NUMBER=?, DESCRIPTION=?" +
                         "WHERE CS_ID = ? AND POSTAL_CODE = ? ",
