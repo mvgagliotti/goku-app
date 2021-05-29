@@ -41,13 +41,14 @@ public class CustomerController {
         Addresses addresses = new Addresses(customerDTO
                 .getAddresses()
                 .stream()
-                .map(x -> {
+                .map(streetDTO -> {
                     City city = new City(
-                            Optional.of(x.getCity().getId()),
-                            x.getCity().getName(),
-                            new State("", ""));
-                    Address address = new Address(x.getPostalCode(), x.getName(), "", city);
-                    CustomerAddress customerAddress = new CustomerAddress(address, new AddressInfo(204, ""));
+                            Optional.of(streetDTO.getCity().getId()),
+                            streetDTO.getCity().getName(),
+                            new State(streetDTO.getCity().getStateAbbreviation(), streetDTO.getCity().getStateName()));
+                    Address address = new Address(streetDTO.getPostalCode(), streetDTO.getName(), "", city); //TODO: district
+                    CustomerAddress customerAddress =
+                            new CustomerAddress(address, new AddressInfo(streetDTO.getNumber(), streetDTO.getDescription()));
                     return customerAddress;
                 }).collect(Collectors.toList()));
 
@@ -69,7 +70,7 @@ public class CustomerController {
                                         x.getStreetAddress().getCity().getName(),
                                         x.getStreetAddress().getCity().getState().getName(),
                                         x.getStreetAddress().getCity().getState().getAbbreviation()
-                                )))
+                                ), x.getAddressInfo().getNumber(), x.getAddressInfo().getDescription()))
                         .collect(Collectors.toList())
         );
     }

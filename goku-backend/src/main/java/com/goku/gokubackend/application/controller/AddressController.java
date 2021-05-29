@@ -1,5 +1,6 @@
 package com.goku.gokubackend.application.controller;
 
+import com.goku.gokubackend.application.controller.dto.AddressDTO;
 import com.goku.gokubackend.application.controller.dto.CityDTO;
 import com.goku.gokubackend.application.controller.dto.StreetDTO;
 import com.goku.gokubackend.domain.Address;
@@ -25,14 +26,14 @@ public class AddressController {
 
     @RequestMapping("/address/{postalCode}")
     @ResponseBody
-    public StreetDTO get(@PathVariable String postalCode) {
+    public AddressDTO get(@PathVariable String postalCode) {
         Address address = addressRepository.findByPostalCode(postalCode).orElseThrow(() -> new DomainException("Address not found"));
         return mapToDTO(address);
     }
 
     @PostMapping(value = "/address", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public StreetDTO create(@RequestBody StreetDTO streetDTO) {
+    public AddressDTO create(@RequestBody StreetDTO streetDTO) {
         Address newInstance = addressRepository.create(mapToAddress(streetDTO));
         return mapToDTO(newInstance);
     }
@@ -45,14 +46,13 @@ public class AddressController {
         return address;
     }
 
-    private StreetDTO mapToDTO(Address address) {
-        return new StreetDTO(address.getPostalCode(), address.getStreetName(),
+    private AddressDTO mapToDTO(Address address) {
+        return new AddressDTO(address.getPostalCode(), address.getStreetName(),
                 new CityDTO(address.getCity().getId().get(),
                         address.getCity().getName(),
                         address.getCity().getState().getName(),
                         address.getCity().getState().getAbbreviation()
-                )
-        );
+                ));
     }
 
 }
