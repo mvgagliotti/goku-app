@@ -107,7 +107,7 @@ em caso de indisponibilidade;
 }
 ```
 
-###PUT /customer/{id}
+### PUT /customer/{id}
 * Descrição: Permite modificar dados do customer e incluir/modificar endereços;
 * Role: USER, ADMIN
 * Input & Response payloads:
@@ -131,7 +131,7 @@ em caso de indisponibilidade;
     ]
 }
 ```
-###GET /address/{postal-code}
+### GET /address/{postal-code}
 * Descrição: obtém os dados do endereço correspondente ao postal-code informado
 * ROLE: ADMIN
 * Input & Response payloads:
@@ -148,7 +148,7 @@ em caso de indisponibilidade;
 }
 ```
 
-###POST /address/{postal-code}
+### POST /address/{postal-code}
 * Descrição: cria um novo endereço
 * ROLE: ADMIN
 * Input & Response payloads:
