@@ -1,5 +1,6 @@
 package com.goku.gokubackend.infrastructure;
 
+import com.goku.gokubackend.domain.exception.DomainException;
 import org.apache.logging.log4j.util.Supplier;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -12,7 +13,7 @@ public interface SpringEmptyResultHandler {
             return supplier.get();
         } catch (EmptyResultDataAccessException ex) {
             //TODO: review this solution, this message is not clear
-            throw new RuntimeException("Entity not found");
+            throw new DomainException("Entity not found");
         }
     }
 

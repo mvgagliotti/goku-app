@@ -1,4 +1,4 @@
-package com.goku.gokubackend.application.jwt;
+package com.goku.gokubackend.application.auth.jwt;
 
 public class JwtParseException extends RuntimeException {
 

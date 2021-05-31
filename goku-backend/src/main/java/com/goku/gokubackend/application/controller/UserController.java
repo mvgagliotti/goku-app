@@ -1,6 +1,6 @@
 package com.goku.gokubackend.application.controller;
 
-import com.goku.gokubackend.application.jwt.JwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtToken;
 import com.goku.gokubackend.domain.Customer;
 import com.goku.gokubackend.domain.Roles;
 import com.goku.gokubackend.domain.User;

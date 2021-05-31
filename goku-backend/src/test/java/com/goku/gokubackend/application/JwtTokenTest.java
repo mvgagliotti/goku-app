@@ -1,7 +1,7 @@
 package com.goku.gokubackend.application;
 
-import com.goku.gokubackend.application.jwt.JwtToken;
-import com.goku.gokubackend.application.jwt.JwtToken.ParsedJwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtToken.ParsedJwtToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

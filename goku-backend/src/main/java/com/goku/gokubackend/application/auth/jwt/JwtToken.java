@@ -1,4 +1,4 @@
-package com.goku.gokubackend.application.jwt;
+package com.goku.gokubackend.application.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

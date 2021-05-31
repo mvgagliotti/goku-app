@@ -1,8 +1,8 @@
-package com.goku.gokubackend.application.filter;
+package com.goku.gokubackend.application.auth.filter;
 
-import com.goku.gokubackend.application.jwt.JwtParseException;
-import com.goku.gokubackend.application.jwt.JwtToken;
-import com.goku.gokubackend.application.jwt.JwtToken.ParsedJwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtParseException;
+import com.goku.gokubackend.application.auth.jwt.JwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtToken.ParsedJwtToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

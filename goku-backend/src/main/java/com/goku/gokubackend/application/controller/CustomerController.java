@@ -1,5 +1,6 @@
 package com.goku.gokubackend.application.controller;
 
+import com.goku.gokubackend.application.auth.CustomerAccessChecker;
 import com.goku.gokubackend.application.controller.dto.CityDTO;
 import com.goku.gokubackend.application.controller.dto.CustomerDTO;
 import com.goku.gokubackend.application.controller.dto.StreetDTO;
@@ -16,16 +17,19 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
     private final CustomerRepository customerRepository;
+    private final CustomerAccessChecker customerAccessChecker;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository) {
+    public CustomerController(CustomerRepository customerRepository, CustomerAccessChecker customerAccessChecker) {
         this.customerRepository = customerRepository;
+        this.customerAccessChecker = customerAccessChecker;
     }
 
     @RequestMapping("/customer/{id}")
     @ResponseBody
     public CustomerDTO get(@PathVariable String id) {
         Customer customer = customerRepository.findById(id);
+        customerAccessChecker.check(customer.getId().get());
         return mapToDTO(customer);
     }
 
@@ -33,6 +37,7 @@ public class CustomerController {
     @ResponseBody
     public CustomerDTO update(@PathVariable String id, @RequestBody CustomerDTO customerDTO) {
         Customer customer = mapToCustomer(id, customerDTO);
+        customerAccessChecker.check(customer.getId().get());
         customer = customerRepository.update(customer);
         return mapToDTO(customer);
     }

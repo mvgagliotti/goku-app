@@ -2,7 +2,7 @@ package com.goku.gokubackend.application;
 
 import com.goku.gokubackend.application.controller.UserController;
 import com.goku.gokubackend.application.controller.UserController.UserResponse;
-import com.goku.gokubackend.application.jwt.JwtToken;
+import com.goku.gokubackend.application.auth.jwt.JwtToken;
 import com.goku.gokubackend.domain.repository.CustomerRepository;
 import com.goku.gokubackend.domain.repository.UserRepository;
 import com.goku.gokubackend.fixtures.UserFixture;
