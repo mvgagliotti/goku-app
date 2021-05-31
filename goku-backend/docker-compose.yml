@@ -7,3 +7,8 @@ mysql:
     MYSQL_PASSWORD: goku_passwd
   ports:
     - 3306:3306
+
+hazelcast:
+  image: hazelcast/hazelcast:4.2
+  ports:
+    - 5701

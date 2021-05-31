@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Component
+@Component()
 public class MySQLCityRepository implements CityRepository, SpringEmptyResultHandler {
 
     private static final RowMapper<City> ROW_MAPPER = (rs, rowNum) -> new City(

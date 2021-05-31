@@ -1,9 +1,28 @@
 # goku app
 ###TLDR
-Microservice para gerenciar clientes e endereços para um restaurante fictício
+Microservice para gerenciar clientes e endereços para um restaurante fictício; 
+Credenciais do usuário admin pré-cadastrado: admin/admin
 
 ## Design da Solução
+A solução para o teste envolveu a criação de um microserviço usando Java e SpringBoot e banco MySQL;
+Os pacotes foram organizados de acordo com a arquitetura de "ports & adapters" ou arquitetura hexagonal, 
+onde a camada mais interna representa o domínio do problema e as interfaces correspondentes às "ports", 
+a camada de infrastructure provê os adaptadores para componentes externos à aplicação, no caso o banco de dados MySQL e  
+a camada de application fornece a interface p/ interação com a aplicação a partir do mundo exterior (controladores REST).
 
+#### Database:
+Para fins de simplificação, foi usado o mecanismo de schema/data do SpringBoot para criação do schema e pré-população de dados; 
+Para um app real, a recomendação seria usar algo mais robusto, como Liquibase ou Flyway
+
+#### Cache:
+A implementação de cache via hazelcast está incompleta; É possível ter uma idéia do design da solução olhando 
+a classe Cache CacheCityRepository;  
+
+#### Busca por CEP
+A solução provê um endpoint para cadastro e busca de endereços; Obviamente, para uma aplicação real, precisaríamos 
+estudar a viabilidade de acessar uma API externa de busca no correios ou serviço correspondente.
+No entato, a soluçao foi pensada para que não fosse dependente desse serviço externo, permitido cadastro manual 
+em caso de indisponibilidade; 
 
 ## Detalhamento dos Endpoints 
 
