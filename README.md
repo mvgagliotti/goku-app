@@ -2,7 +2,8 @@
 
 ##TLDR
 Microservice para gerenciar clientes e endereços para um restaurante fictício; 
-Credenciais do usuário admin pré-cadastrado: admin/admin
+* Credenciais do usuário admin pré-cadastrado: admin/admin;
+* Rodar mysql e hazelcast: docker-compose up na pasta goku-backend;
 
 ## Design da Solução
 A solução para o teste envolveu a criação de um microserviço usando Java e SpringBoot e banco MySQL;
@@ -17,7 +18,7 @@ Para um app real, a recomendação seria usar algo mais robusto, como Liquibase 
 
 #### Cache:
 A implementação de cache via hazelcast está incompleta; É possível ter uma idéia do design da solução olhando 
-a classe Cache CacheCityRepository;  
+a classe Cache CacheCityRepository e na classe de config. CacheConfig. Infelizmente a versão usada não suporta Optional.   
 
 #### Busca por CEP
 A solução provê um endpoint para cadastro e busca de endereços; Obviamente, para uma aplicação real, precisaríamos 

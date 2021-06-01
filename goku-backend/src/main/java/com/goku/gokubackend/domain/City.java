@@ -3,10 +3,11 @@ package com.goku.gokubackend.domain;
 import com.goku.gokubackend.domain.exception.CityException;
 import com.goku.gokubackend.domain.utils.ValidationUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-public class City implements Entity {
+public class City implements Entity, Serializable {
     private final Optional<String> id;
     private final String name;
     private final State state;

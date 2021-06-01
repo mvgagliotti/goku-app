@@ -67,10 +67,7 @@ public class MySQLAddressRepository implements AddressRepository, SpringEmptyRes
 
     @Override
     public Optional<Address> findByPostalCode(String postalCode) {
-        try {
-            return Optional.of(jdbc.queryForObject("SELECT * FROM ADDRESS WHERE POSTAL_CODE = ?", ROW_MAPPER, postalCode));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+        return handleEmpty(() -> jdbc.queryForObject("SELECT * FROM ADDRESS WHERE POSTAL_CODE = ?",
+                ROW_MAPPER, postalCode));
     }
 }

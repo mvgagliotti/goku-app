@@ -34,11 +34,15 @@ public class CachedCityRepository implements CityRepository {
         if (cityCache.containsKey(id)) {
             return cityCache.get(id);
         }
-        return cityRepository.findById(id);
+        final City foundCity = cityRepository.findById(id);
+        cityCache.put(foundCity.getId().get(), foundCity);
+        return foundCity;
     }
 
     @Override
     public City update(City city) {
-        return cityRepository.update(city);
+        final City updated = cityRepository.update(city);
+        cityCache.put(updated.getId().get(), updated);
+        return updated;
     }
 }
