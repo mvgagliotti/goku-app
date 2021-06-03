@@ -1,9 +1,10 @@
-package com.goku.gokubackend.infrastructure;
+package com.goku.gokubackend.infrastructure.mysql;
 
 import com.goku.gokubackend.domain.Address;
 import com.goku.gokubackend.domain.City;
 import com.goku.gokubackend.domain.repository.AddressRepository;
 import com.goku.gokubackend.domain.repository.CityRepository;
+import com.goku.gokubackend.infrastructure.SpringEmptyResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,6 +1,6 @@
 # goku app
 
-##TLDR
+## TLDR
 Microservice para gerenciar clientes e endereços para um restaurante fictício; 
 * Credenciais do usuário admin pré-cadastrado: admin/admin;
 * Rodar mysql e hazelcast: docker-compose up na pasta goku-backend;

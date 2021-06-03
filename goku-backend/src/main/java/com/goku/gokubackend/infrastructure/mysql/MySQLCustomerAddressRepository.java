@@ -1,4 +1,4 @@
-package com.goku.gokubackend.infrastructure;
+package com.goku.gokubackend.infrastructure.mysql;
 
 import com.goku.gokubackend.domain.Address;
 import com.goku.gokubackend.domain.AddressInfo;
